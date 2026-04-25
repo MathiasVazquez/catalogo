@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo Web</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+<meta name="theme-color" content="#1f7a4c">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
 </head>
 <body>
     <header class="topbar">
@@ -37,5 +40,18 @@
 
         {% block content %}{% endblock %}
     </main>
+    <script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/static/sw.js")
+            .then(function (registration) {
+                console.log("Service Worker registrado:", registration.scope);
+            })
+            .catch(function (error) {
+                console.log("Error al registrar el Service Worker:", error);
+            });
+    });
+}
+</script>
 </body>
 </html>
