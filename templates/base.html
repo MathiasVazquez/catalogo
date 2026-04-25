@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Web</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <div class="contenedor topbar-contenido">
+            <div>
+                <p class="mini-titulo">Sistema de catálogo</p>
+                <h1>Catálogo de Productos</h1>
+            </div>
+
+            {% if session.get("logueado") %}
+            <nav class="menu-principal">
+                <a href="{{ url_for('index') }}">Inicio</a>
+                <a href="{{ url_for('gestionar_categorias') }}">Categorías</a>
+                <a href="{{ url_for('logout') }}">Salir</a>
+            </nav>
+            {% endif %}
+        </div>
+    </header>
+
+    <main class="contenedor principal">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <section class="flash-stack">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

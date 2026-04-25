@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <div>
+        <p class="ruta">Categorías / {{ categoria.nombre }}</p>
+        <h2>{{ categoria.icono }} {{ categoria.nombre }}</h2>
+        <p class="subtexto">Agrega y administra productos de forma simple.</p>
+    </div>
+    <a class="btn-secundario" href="{{ url_for('index') }}">Volver</a>
+</section>
+
+<section class="grid-resumen">
+    <div class="resumen-card">
+        <span class="resumen-label">Productos</span>
+        <strong>{{ resumen.cantidad }}</strong>
+    </div>
+    <div class="resumen-card">
+        <span class="resumen-label">Compra total</span>
+        <strong>Gs. {{ "{:,.0f}".format(resumen.total_compra) }}</strong>
+    </div>
+    <div class="resumen-card">
+        <span class="resumen-label">Reventa total</span>
+        <strong>Gs. {{ "{:,.0f}".format(resumen.total_reventa) }}</strong>
+    </div>
+    <div class="resumen-card">
+        <span class="resumen-label">Ganancia estimada</span>
+        <strong>Gs. {{ "{:,.0f}".format(resumen.ganancia_total) }}</strong>
+    </div>
+</section>
+
+<section class="bloque">
+    <div class="bloque-titulo">
+        <h3>Agregar producto</h3>
+        <p>Completa estos datos y presiona el botón grande para guardar.</p>
+    </div>
+
+    <form method="POST" class="formulario-grid">
+        <div class="campo campo-grande">
+            <label for="descripcion">Descripción de mercadería</label>
+            <input
+                type="text"
+                name="descripcion"
+                id="descripcion"
+                placeholder="Ej.: Coca Cola 500 ml"
+                autocomplete="off"
+                required>
+        </div>
+
+        <div class="campo">
+            <label for="precio_compra">Precio de compra</label>
+            <input
+                type="number"
+                step="0.01"
+                inputmode="decimal"
+                name="precio_compra"
+                id="precio_compra"
+                placeholder="Ej.: 4500"
+                required>
+        </div>
+
+        <div class="campo">
+            <label for="precio_reventa">Precio de reventa</label>
+            <input
+                type="number"
+                step="0.01"
+                inputmode="decimal"
+                name="precio_reventa"
+                id="precio_reventa"
+                placeholder="Ej.: 6000"
+                required>
+        </div>
+
+        <div class="campo campo-grande">
+            <label for="lugar_compra">Lugar de compra</label>
+            <input
+                type="text"
+                name="lugar_compra"
+                id="lugar_compra"
+                list="lugares_compra"
+                placeholder="Ej.: Casa Comercial San Miguel"
+                autocomplete="off"
+                required>
+            <datalist id="lugares_compra">
+                {% for lugar in lugares_compra %}
+                <option value="{{ lugar }}">
+                {% endfor %}
+            </datalist>
+        </div>
+
+        <div class="formulario-acciones">
+            <button type="submit" class="btn-principal btn-xl btn-full-mobile">Agregar producto</button>
+        </div>
+    </form>
+</section>
+
+<section class="bloque">
+    <div class="bloque-titulo">
+        <h3>Productos registrados</h3>
+        <p>Tarjetas grandes para ver mejor desde celular o tablet.</p>
+    </div>
+
+    {% if productos %}
+    <div class="productos-grid">
+        {% for producto in productos %}
+        <article class="producto-card">
+            <div class="producto-card-header">
+                <div>
+                    <h4>{{ producto.descripcion }}</h4>
+                    <span class="producto-id">ID #{{ producto.id }}</span>
+                </div>
+            </div>
+
+            <div class="producto-datos">
+                <div class="dato-item">
+                    <span class="dato-label">Precio de compra</span>
+                    <strong>Gs. {{ "{:,.0f}".format(producto.precio_compra) }}</strong>
+                </div>
+
+                <div class="dato-item">
+                    <span class="dato-label">Precio de reventa</span>
+                    <strong>Gs. {{ "{:,.0f}".format(producto.precio_reventa) }}</strong>
+                </div>
+
+                <div class="dato-item">
+                    <span class="dato-label">Ganancia</span>
+                    <strong>Gs. {{ "{:,.0f}".format(producto.ganancia) }}</strong>
+                </div>
+
+                <div class="dato-item dato-largo">
+                    <span class="dato-label">Lugar de compra</span>
+                    <strong>{{ producto.lugar_compra }}</strong>
+                </div>
+
+                <div class="dato-item">
+                    <span class="dato-label">Creado</span>
+                    <strong>{{ producto.created_at }}</strong>
+                </div>
+
+                <div class="dato-item">
+                    <span class="dato-label">Última edición</span>
+                    <strong>{{ producto.updated_at }}</strong>
+                </div>
+            </div>
+
+            <div class="producto-acciones">
+                <a class="btn-editar btn-full-mobile" href="{{ url_for('editar_producto', producto_id=producto.id) }}">Editar</a>
+                <a class="btn-eliminar btn-full-mobile" href="{{ url_for('eliminar_producto', producto_id=producto.id) }}" onclick="return confirm('¿Seguro que deseas eliminar este producto?')">Eliminar</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="mensaje-vacio">
+        <p>No hay productos cargados todavía en esta categoría.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

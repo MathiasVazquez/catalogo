@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <div>
+        <p class="ruta">Categorías</p>
+        <h2>Gestión de categorías</h2>
+        <p class="subtexto">Crea, edita o elimina categorías sin tocar el código.</p>
+    </div>
+    <a class="btn-secundario" href="{{ url_for('index') }}">Volver al inicio</a>
+</section>
+
+<section class="bloque">
+    <div class="bloque-titulo">
+        <h3>Nueva categoría</h3>
+        <p>Completa los datos y guarda.</p>
+    </div>
+
+    <form method="POST" class="formulario-grid">
+        <div class="campo">
+            <label for="nombre">Nombre de categoría</label>
+            <input type="text" name="nombre" id="nombre" placeholder="Ej.: Congelados" required>
+        </div>
+
+        <div class="campo">
+            <label for="icono">Icono</label>
+            <input type="text" name="icono" id="icono" placeholder="Ej.: ❄️" maxlength="5" required>
+        </div>
+
+        <div class="campo campo-grande">
+            <label for="color">Color</label>
+            <input type="color" name="color" id="color" value="#1F7A4C" required>
+        </div>
+
+        <div class="formulario-acciones">
+            <button type="submit" class="btn-principal btn-xl btn-full-mobile">Guardar categoría</button>
+        </div>
+    </form>
+</section>
+
+<section class="bloque">
+    <div class="bloque-titulo">
+        <h3>Categorías cargadas</h3>
+        <p>Administra las categorías del sistema.</p>
+    </div>
+
+    <div class="productos-grid">
+        {% for categoria in categorias %}
+        <article class="producto-card">
+            <div class="producto-card-header">
+                <div>
+                    <h4>{{ categoria.icono }} {{ categoria.nombre }}</h4>
+                    <span class="producto-id">{{ categoria.total_productos }} producto(s)</span>
+                </div>
+            </div>
+
+            <div class="dato-item dato-largo">
+                <span class="dato-label">Color</span>
+                <strong>{{ categoria.color }}</strong>
+                <div class="color-muestra" style="background-color: {{ categoria.color }};"></div>
+            </div>
+
+            <div class="producto-acciones">
+                <a class="btn-editar btn-full-mobile" href="{{ url_for('editar_categoria', categoria_id=categoria.id) }}">Editar</a>
+                <a class="btn-eliminar btn-full-mobile" href="{{ url_for('eliminar_categoria', categoria_id=categoria.id) }}" onclick="return confirm('¿Seguro que deseas eliminar esta categoría?')">Eliminar</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <div>
+        <p class="ruta">Inicio</p>
+        <h2>Categorías</h2>
+        <p class="subtexto">Selecciona una categoría para administrar sus productos.</p>
+    </div>
+    <a class="btn-secundario" href="{{ url_for('gestionar_categorias') }}">Administrar categorías</a>
+</section>
+
+<section class="grid-categorias">
+    {% for categoria in categorias %}
+    <a class="categoria-card" href="{{ url_for('ver_categoria', slug=categoria.slug) }}" style="--categoria-color: {{ categoria.color }}">
+        <div class="categoria-card-icono">{{ categoria.icono }}</div>
+        <div class="categoria-card-texto">
+            <h3>{{ categoria.nombre }}</h3>
+            <p>{{ categoria.total_productos }} producto(s)</p>
+        </div>
+        <div class="categoria-card-boton">Entrar</div>
+    </a>
+    {% endfor %}
+</section>
+{% endblock %}

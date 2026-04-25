@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <div>
+        <p class="ruta">Categorías / Editar</p>
+        <h2>Editar categoría</h2>
+        <p class="subtexto">Si cambias el nombre, los productos se actualizan automáticamente.</p>
+    </div>
+    <a class="btn-secundario" href="{{ url_for('gestionar_categorias') }}">Volver</a>
+</section>
+
+<section class="bloque">
+    <form method="POST" class="formulario-grid">
+        <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" id="nombre" value="{{ categoria.nombre }}" required>
+        </div>
+
+        <div class="campo">
+            <label for="icono">Icono</label>
+            <input type="text" name="icono" id="icono" value="{{ categoria.icono }}" maxlength="5" required>
+        </div>
+
+        <div class="campo campo-grande">
+            <label for="color">Color</label>
+            <input type="color" name="color" id="color" value="{{ categoria.color }}" required>
+        </div>
+
+        <div class="formulario-acciones">
+            <button type="submit" class="btn-principal btn-xl btn-full-mobile">Guardar cambios</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="encabezado-pagina">
+    <div>
+        <p class="ruta">Editar producto</p>
+        <h2>Modificar producto</h2>
+        <p class="subtexto">También puedes moverlo a otra categoría.</p>
+    </div>
+    <a class="btn-secundario" href="{{ url_for('index') }}">Inicio</a>
+</section>
+
+<section class="bloque">
+    <div class="bloque-titulo">
+        <h3>Datos del producto</h3>
+        <p>Edita los campos y guarda los cambios.</p>
+    </div>
+
+    <form method="POST" class="formulario-grid">
+        <div class="campo campo-grande">
+            <label for="categoria">Categoría</label>
+            <select name="categoria" id="categoria" required>
+                {% for categoria in categorias %}
+                <option value="{{ categoria.nombre }}" {% if categoria.nombre == producto.categoria %}selected{% endif %}>
+                    {{ categoria.icono }} {{ categoria.nombre }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="campo campo-grande">
+            <label for="descripcion">Descripción de mercadería</label>
+            <input type="text" name="descripcion" id="descripcion" value="{{ producto.descripcion }}" required>
+        </div>
+
+        <div class="campo">
+            <label for="precio_compra">Precio de compra</label>
+            <input type="number" step="0.01" inputmode="decimal" name="precio_compra" id="precio_compra" value="{{ producto.precio_compra }}" required>
+        </div>
+
+        <div class="campo">
+            <label for="precio_reventa">Precio de reventa</label>
+            <input type="number" step="0.01" inputmode="decimal" name="precio_reventa" id="precio_reventa" value="{{ producto.precio_reventa }}" required>
+        </div>
+
+        <div class="campo campo-grande">
+            <label for="lugar_compra">Lugar de compra</label>
+            <input type="text" name="lugar_compra" id="lugar_compra" list="lugares_compra" value="{{ producto.lugar_compra }}" required>
+            <datalist id="lugares_compra">
+                {% for lugar in lugares_compra %}
+                <option value="{{ lugar }}">
+                {% endfor %}
+            </datalist>
+        </div>
+
+        <div class="campo">
+            <label>Fecha de creación</label>
+            <input type="text" value="{{ producto.created_at }}" readonly>
+        </div>
+
+        <div class="campo">
+            <label>Última edición</label>
+            <input type="text" value="{{ producto.updated_at }}" readonly>
+        </div>
+
+        <div class="formulario-acciones">
+            <button type="submit" class="btn-principal btn-xl btn-full-mobile">Guardar cambios</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

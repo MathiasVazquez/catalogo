@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="login-wrapper">
+    <div class="login-card">
+        <div class="login-header">
+            <h2>Entrar al sistema</h2>
+            <p>Ingresa tu usuario y contraseña.</p>
+        </div>
+
+        <form method="POST" class="formulario-grid formulario-login">
+            <div class="campo campo-grande">
+                <label for="usuario">Usuario</label>
+                <input type="text" name="usuario" id="usuario" autocomplete="username" required>
+            </div>
+
+            <div class="campo campo-grande">
+                <label for="password">Contraseña</label>
+                <input type="password" name="password" id="password" autocomplete="current-password" required>
+            </div>
+
+            <div class="formulario-acciones">
+                <button type="submit" class="btn-principal btn-full">Entrar</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
